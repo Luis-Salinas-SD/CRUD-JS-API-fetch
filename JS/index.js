@@ -43,7 +43,7 @@ fetch(url)
     .then(data => mostrar(data))
     .catch(error => console.log(error))
 
-//& Funcion on
+//$ >>>>>>>>>>>> Funcion on <<<<<<<<<<<<<<<<<<<
 const on = (element, event, selector, handler) => {
     element.addEventListener(event, e => {
         if (e.target.closest(selector)) {
@@ -79,7 +79,7 @@ on(document, 'click', '.btnBorrar', e => {
         },
         function () {
             alertify.error('Cancelado')
-        })
+        })//fin alertify
 })
 
 //&Procedimiento Editar
@@ -101,4 +101,46 @@ on(document, 'click', '.btnEditar', e => {
 
     opcion = 'editar'
     modalArticulo.show()
+})
+
+//&Procedimiento Crear y Editar
+formArticulo.addEventListener('submit', (e) => {
+    e.preventDefault()
+    console.log(opcion);
+    if (opcion == 'crear') {
+        //console.log('Opcion Crear');
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                descripcion: descripcion.value,
+                precio: precio.value,
+                stock: stock.value
+            })
+        })//fetch
+            .then(response => response.json())
+            .then(data => {
+                const nuevoArticulo = []
+                nuevoArticulo.push()
+                mostrar(nuevoArticulo)
+            })
+    }
+    if (opcion == 'editar') {
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                descripcion: descripcion.value,
+                precio: precio.value,
+                stock: stock.value
+            })
+        })//fetch
+            .then(response => response.json())
+            .then(data => location.reload())
+    }
+    modalArticulo.hide()
 })
